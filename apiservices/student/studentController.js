@@ -1,6 +1,7 @@
 const { statusClean } = require("../../services/statusClean.services");
 const { averageOrder } = require("../../utils/averageOrder");
 const { dataCleanOrder } = require("../../utils/cleanGetDataOrder");
+const { dataStructureToSendAverage } = require("../../utils/dataStructureToSendAverage");
 const { structureDataToAverage } = require("../../utils/structureDataToAverage");
 const { dataStructureToSend } = require("./studentDTO");
 const { creates, deleteS, gets, getIds, updates } = require("./studentDao");
@@ -34,8 +35,13 @@ const getId = async (req, res) => {
         const dataCleanReturn = await statusClean(dataReturn)
 
 
+        const dataR = await structureDataToAverage(dataCleanReturn)
+        const average = await dataStructureToSendAverage(dataR)
+
+
+
         return res.status(200).json({
-            dataCleanReturn
+            average
         });
     } catch (error) {
         return res.status(500).json({ error: error.message });

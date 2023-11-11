@@ -56,7 +56,7 @@ const getIds = async ({ data }) => {
                 }
             ],
             attributes: {
-                exclude: ['createdAt', 'updatedAt']
+                exclude: ['createdAt', 'updatedAt','average']
             },
             where: whereClause
 
