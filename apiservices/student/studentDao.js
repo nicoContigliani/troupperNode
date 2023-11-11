@@ -1,5 +1,5 @@
 const { Student, Subject, StudentSubject } = require("../../models");
-
+const { Op,literal } = require("sequelize");
 
 
 const gets = async () => {
@@ -31,12 +31,40 @@ const gets = async () => {
 };
 
 
-const getIds = async ({ id }) => {
-    return await Student.findAll({
-        where: {
-            id: id
-        }
-    });
+const getIds = async ({ data }) => {
+
+    try {
+        const idAsInt = parseInt(data);
+        const whereClause = idAsInt
+            ? { id: idAsInt }
+            : literal(`LOWER("fullname") LIKE LOWER('%${data}%')`);
+
+        return await Student.findAll({
+
+            include: [
+                {
+                    model: Subject,
+                    attributes: {
+                        exclude: ['id', 'createdAt', 'updatedAt', 'subject_status']
+                    },
+                    through: {
+                        model: StudentSubject,
+                        attributes: {
+                            exclude: ['id', 'createdAt', 'updatedAt', "StudentId", "SubjectId"]
+                        }
+                    }
+                }
+            ],
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            },
+            where: whereClause
+
+        });
+    } catch (error) {
+        console.log("🚀 ~ file: studentDao.js:40 ~ getIds ~ error:", error)
+
+    }
 }
 
 
@@ -46,7 +74,6 @@ const creates = async (data) => {
 }
 
 
-//updatedAt = new Date(),
 
 const updates = async (data, { id }) => {
 

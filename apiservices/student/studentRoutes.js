@@ -5,7 +5,7 @@ const student = require('./studentController')
 
 /* GET users listing. */
 router.get('/', student.get)
-router.get('/:id', student.getId)
+router.get('/:data', student.getId)
 router.post('/', student.post)
 router.put('/:id', student.put)
 router.delete('/:id', student.deletes)
