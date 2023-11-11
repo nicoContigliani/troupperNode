@@ -1,10 +1,10 @@
-const list = require('../../models/list')
+const { List } = require("../../models");
 
 
 
 const gets = async () => {
     try {
-        return await list.findAll({
+        return await List.findAll({
 
         });
 
@@ -16,80 +16,74 @@ const gets = async () => {
 };
 
 
-const getId = async (data) => {
-    const idBranch = data
-    return await list.findAll({
-
+const getIds = async ({ id }) => {
+    console.log("🚀 ~ file: dataOrderDao.js:20 ~ getIds ~ id:", id)
+    return await List.findAll({
         where: {
-            BranchId: id
+            id: id
         }
     });
-
-
-
-
-
-
 }
 
 
 const creates = async (data) => {
-    return await list.create(data)
+    return await List.create(data)
 }
 
 
 //updatedAt = new Date(),
 
-const updateS = async (data, id) => {
+const updates = async (data, { id }) => {
 
     try {
-        const product = list.update(
+        return await List.update(
             {
-                data
+                ...data,
             },
             {
-                returning: true,
                 where: {
                     id: parseInt(id),
                 },
             }
         );
-        return product
+
     } catch (error) {
         console.log(error);
     }
-    return product
+
 }
 
 
-const deleteS = async ({ data }) => {
-    // return await list.destroy(
+const deleteS = async ({id}, data) => {
+    data.status = false
+    try {
+        await List.update(
+            data,
+            {
+                where: {
+                    id: parseInt(id),
+                },
+            }
+        );
+    } catch (error) {
+        console.log("🚀 ~ file: dataOrderDao.js:63 ~ deleteS ~ error:", error)
+
+    }
+    // return await List.destroy(
     //     {
     //       where: { id: id }
     //     }
     //   );
 
-    return list.update(
-        {
 
-            status: "desactive",
-
-        },
-        {
-            returning: true,
-            where: {
-                id: parseInt(data),
-            },
-        }
-    );
 
 }
 
 
 module.exports = {
     gets,
-    getId,
+    getIds,
     creates,
-    updateS,
+    updates,
     deleteS,
 };

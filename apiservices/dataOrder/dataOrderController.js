@@ -1,5 +1,6 @@
 const { dataOrderMax, dataOrderMin } = require("../../services/orderData.services");
-const { creates, updateS, deleteS, gets } = require("./dataOrderDao");
+const { dataCleanOrder } = require("../../utils/cleanGetDataOrder");
+const { creates, deleteS, gets, getIds, updates } = require("./dataOrderDao");
 
 const get = async (req, res) => {
     try {
@@ -7,32 +8,52 @@ const get = async (req, res) => {
         const dataBody = req.body;
 
         console.log("hola")
-        const insurance = await gets()
+        const dataReturn = await gets()
 
         return res.status(200).json({
-            insurance
+            dataReturn
         });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
 }
+
+
+const getId = async (req, res) => {
+    try {
+        const id = req.params;
+        const dataBody = req.body;
+
+        const dataReturn = await getIds(id)
+
+        return res.status(200).json({
+            dataReturn
+        });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+
 const post = async (req, res) => {
     try {
         const data = req.params.data;
         const dataBody = req.body;
-        const dataOrderMaxReturn = dataOrderMax(dataBody)
-        const dataOrderMinReturn = dataOrderMin(dataBody)
+        const list = dataBody.toString()
+        const max_numbers = dataOrderMax(dataBody)
+        const min_numbers = dataOrderMin(dataBody)
 
-        const dataInsert = {
-            list: dataBody.toString(),
-            min_numbers: dataOrderMaxReturn,
-            max_numbers: dataOrderMinReturn
+        let dataInsert = {
+            list,
+            max_numbers,
+            min_numbers,
+            status: true
         }
-        const insurance = await creates(dataInsert)
+
+        const dataReturn = await creates(dataInsert)
 
 
         return res.status(200).json({
-
+            dataReturn
         });
     } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -40,25 +61,26 @@ const post = async (req, res) => {
 }
 const put = async (req, res) => {
     try {
-        const dataId = req.params.data;
+        const dataId = req.params;
         const dataBody = req.body;
-
-        const insurance = await insuranceModel.updateS(dataBody, dataId)
+        const dataReturn = await updates(dataBody, dataId)
 
 
         return res.status(200).json({
-            insurance
+            dataReturn
         });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
 }
 const deletes = async (req, res) => {
-    try {
-        const data = req.params.data;
-        const dataBody = req.body;
 
-        const dataReturn = await deleteS(data)
+    try {
+        const id = req.params;
+        let dataGet = await getIds(id)
+        const dataGetFomater = await dataCleanOrder(dataGet)
+
+        const dataReturn = await deleteS(id,dataGetFomater)
 
 
         return res.status(200).json({
@@ -70,7 +92,9 @@ const deletes = async (req, res) => {
 }
 module.exports = {
     get,
+    getId,
     post,
     put,
-    deletes
+    deletes,
+
 }

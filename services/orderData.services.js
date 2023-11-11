@@ -1,4 +1,4 @@
-const dataOrderMax = ({ data }) => {
+const dataOrderMax = ( data ) => {
     return data.sort().reverse()[0]
 }
 const dataOrderMin = (data) => {
