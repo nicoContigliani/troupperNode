@@ -1,10 +1,10 @@
-const { List } = require("../../models");
+const { Student } = require("../../models");
 
 
 
 const gets = async () => {
     try {
-        return await List.findAll({
+        return await Student.findAll({
 
         });
 
@@ -18,7 +18,7 @@ const gets = async () => {
 
 const getIds = async ({ id }) => {
     console.log("🚀 ~ file: dataOrderDao.js:20 ~ getIds ~ id:", id)
-    return await List.findAll({
+    return await Student.findAll({
         where: {
             id: id
         }
@@ -27,7 +27,7 @@ const getIds = async ({ id }) => {
 
 
 const creates = async (data) => {
-    return await List.create(data)
+    return await Student.create(data)
 }
 
 
@@ -36,7 +36,7 @@ const creates = async (data) => {
 const updates = async (data, { id }) => {
 
     try {
-        return await List.update(
+        return await Student.update(
             {
                 ...data,
             },
@@ -57,7 +57,7 @@ const updates = async (data, { id }) => {
 const deleteS = async ({id}, data) => {
     data.status = false
     try {
-       return  await List.update(
+       return  await Student.update(
             data,
             {
                 where: {
@@ -69,7 +69,7 @@ const deleteS = async ({id}, data) => {
         console.log("🚀 ~ file: dataOrderDao.js:63 ~ deleteS ~ error:", error)
 
     }
-    // return await List.destroy(
+    // return await Student.destroy(
     //     {
     //       where: { id: id }
     //     }

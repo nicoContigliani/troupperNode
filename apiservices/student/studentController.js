@@ -1,7 +1,7 @@
 const { dataOrderMax, dataOrderMin } = require("../../services/orderData.services");
 const { statusClean } = require("../../services/statusClean.services");
 const { dataCleanOrder } = require("../../utils/cleanGetDataOrder");
-const { creates, deleteS, gets, getIds, updates } = require("./dataOrderDao");
+const { creates, deleteS, gets, getIds, updates } = require("./studentDao");
 
 const get = async (req, res) => {
     try {

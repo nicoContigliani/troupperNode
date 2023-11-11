@@ -1,6 +1,6 @@
 const  express = require('express');
 const  router = express.Router();
-const dataOrder = require('../apiservices/dataOrder/dataOrderRoutes')
+const student = require('../apiservices/student/studentRoutes')
 /* GET users listing. */
-router.use('/order', dataOrder)
+router.use('/student', student)
 module.exports = router;
