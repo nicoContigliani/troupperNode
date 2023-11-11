@@ -1,14 +1,29 @@
-const { Student } = require("../../models");
+const { Student, Subject, StudentSubject } = require("../../models");
 
 
 
 const gets = async () => {
     try {
         return await Student.findAll({
-
+            include: [
+                {
+                    model: Subject,
+                    attributes: {
+                        exclude: ['id', 'createdAt', 'updatedAt', 'subject_status']
+                    },
+                    through: {
+                        model: StudentSubject,
+                        attributes: {
+                            exclude: ['id', 'createdAt', 'updatedAt', "StudentId", "SubjectId"]
+                        }
+                    }
+                }
+            ],
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            },
         });
 
-        return data;
     } catch (error) {
         console.log(error);
     }
@@ -17,7 +32,6 @@ const gets = async () => {
 
 
 const getIds = async ({ id }) => {
-    console.log("🚀 ~ file: dataOrderDao.js:20 ~ getIds ~ id:", id)
     return await Student.findAll({
         where: {
             id: id
@@ -27,6 +41,7 @@ const getIds = async ({ id }) => {
 
 
 const creates = async (data) => {
+    console.log("🚀 ~ file: studentDao.js:30 ~ creates ~ data:", data)
     return await Student.create(data)
 }
 
@@ -54,10 +69,10 @@ const updates = async (data, { id }) => {
 }
 
 
-const deleteS = async ({id}, data) => {
+const deleteS = async ({ id }, data) => {
     data.status = false
     try {
-       return  await Student.update(
+        return await Student.update(
             data,
             {
                 where: {
@@ -84,3 +99,12 @@ module.exports = {
     updates,
     deleteS,
 };
+
+
+// attributes[
+//     namesubject,
+//     subject_status
+// ]
+
+
+// "StudentId","SubjectId"

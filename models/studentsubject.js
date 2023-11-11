@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   StudentSubject.init({
     StudentId: DataTypes.BIGINT,
     SubjectId: DataTypes.BIGINT,
+    qualification: DataTypes.FLOAT,
     student_subject_status: DataTypes.BOOLEAN
   }, {
     sequelize,

@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Subject.belongsToMany(models.Student, { through: models.StudentSubject,
+        onDelete: 'CASCADE',
+        onCreate: 'CASCADE',
+      });
+
     }
   }
   Subject.init({

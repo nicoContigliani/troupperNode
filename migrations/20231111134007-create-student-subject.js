@@ -15,6 +15,9 @@ module.exports = {
       SubjectId: {
         type: Sequelize.BIGINT
       },
+      qualification: {
+        type: Sequelize.FLOAT
+      },
       student_subject_status: {
         type: Sequelize.BOOLEAN
       },

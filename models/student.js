@@ -11,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Student.belongsToMany(models.Subject, {
+        through: models.StudentSubject,
+        onDelete: 'CASCADE',
+        onCreate: 'CASCADE',
+      });
+
     }
   }
   Student.init({
@@ -23,3 +29,17 @@ module.exports = (sequelize, DataTypes) => {
   });
   return Student;
 };
+
+
+
+
+// "id",
+// "fullname":",
+// "student_status":",
+// "average":",
+// "createdAt":",
+// "updatedA":"t
+
+// "fullname":"Juan Perez",
+// "student_status":true,
+// "average":81.8,

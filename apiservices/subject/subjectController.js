@@ -1,7 +1,7 @@
 const { dataOrderMax, dataOrderMin } = require("../../services/orderData.services");
 const { statusClean } = require("../../services/statusClean.services");
 const { dataCleanOrder } = require("../../utils/cleanGetDataOrder");
-const { creates, deleteS, gets, getIds, updates } = require("./studentDao");
+const { creates, deleteS, gets, getIds, updates } = require("./subjectDao");
 
 const get = async (req, res) => {
     try {
@@ -39,9 +39,18 @@ const post = async (req, res) => {
     try {
         const data = req.params.data;
         const dataBody = req.body;
+        const list = dataBody.toString()
+        const max_numbers = dataOrderMax(dataBody)
+        const min_numbers = dataOrderMin(dataBody)
 
+        let dataInsert = {
+            list,
+            max_numbers,
+            min_numbers,
+            status: true
+        }
 
-        const dataReturn = await creates(dataBody)
+        const dataReturn = await creates(dataInsert)
 
 
         return res.status(200).json({
