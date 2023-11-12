@@ -9,6 +9,7 @@ const usersRouter = require('./routes/users');
 const dataOrder = require('./routes/dataOrder');
 const student=require('./routes/student')
 const subject=require('./routes/subject')
+const studentSubject=require('./routes/studentSubject')
 
 
 const app = express();
@@ -29,6 +30,8 @@ app.use('/users', usersRouter);
 app.use('/dataOrder',dataOrder)
 app.use('/student',student)
 app.use('/subject',subject)
+app.use('/studentSubject',studentSubject)
+
 
 
 
