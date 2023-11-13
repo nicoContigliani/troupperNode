@@ -7,10 +7,12 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const dataOrder = require('./routes/dataOrder');
-const student=require('./routes/student')
-const subject=require('./routes/subject')
-const studentSubject=require('./routes/studentSubject')
-
+const student = require('./routes/student')
+const subject = require('./routes/subject')
+const studentSubject = require('./routes/studentSubject')
+const player = require('./routes/player')
+const game = require('./routes/game')
+const gamePlayer = require('./routes/gameplayer')
 
 const app = express();
 
@@ -28,21 +30,35 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.use('/dataOrder',dataOrder)
-app.use('/student',student)
-app.use('/subject',subject)
-app.use('/studentSubject',studentSubject)
+app.use('/dataOrder', dataOrder)
+
+app.use('/student', student)
+app.use('/subject', subject)
+app.use('/studentSubject', studentSubject)
+
+app.use('/player', player)
+app.use('/game', game)
+app.use('/gamePlayer', gamePlayer)
+
+
+
+
+
+// player
+// game
+// gamePlayer
+
 
 
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
