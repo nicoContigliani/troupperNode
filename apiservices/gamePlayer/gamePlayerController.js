@@ -3,23 +3,17 @@ const { averageOrder } = require("../../utils/averageOrder");
 const { dataCleanOrder } = require("../../utils/cleanGetDataOrder");
 const { dataStructureToSendAverage } = require("../../utils/dataStructureToSendAverage");
 const { structureDataToAverage } = require("../../utils/structureDataToAverage");
-const { dataStructureToSend } = require("./studentSubjectDTO");
-const { creates, deleteS, gets, getIds, updates } = require("./studentSubjectDao");
+const { dataStructureToSend } = require("./gamePlayerDTO");
+const { creates, deleteS, gets, getIds, updates } = require("./gamePlayerDao");
 
 const get = async (req, res) => {
     try {
 
         const dataReturn = await gets()
-        const dataCleanReturn = await statusClean(dataReturn)
-
-        const dataR = await structureDataToAverage(dataCleanReturn)
-        const dataReturnAverageOrder = await averageOrder(dataR)
-
-        const dataToSend = await dataStructureToSend(dataReturnAverageOrder)
-
+        const data = await statusClean(dataReturn)
 
         return res.status(200).json({
-            ...dataToSend
+            data
         });
     } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -29,19 +23,13 @@ const get = async (req, res) => {
 
 const getId = async (req, res) => {
     try {
-        const data = req.params;
+        const dataBody = req.params;
 
-        const dataReturn = await getIds(data)
-        const dataCleanReturn = await statusClean(dataReturn)
-
-
-        const dataR = await structureDataToAverage(dataCleanReturn)
-        const average = await dataStructureToSendAverage(dataR)
-
-
+        const dataReturn = await getIds(dataBody)
+        const data = await statusClean(dataReturn)
 
         return res.status(200).json({
-            average
+            data
         });
     } catch (error) {
         return res.status(500).json({ error: error.message });

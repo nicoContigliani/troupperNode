@@ -1,27 +1,27 @@
-const { Student, Subject, StudentSubject } = require("../../models");
+const { Game,Player,GamePlayer } = require("../../models");
 const { Op,literal } = require("sequelize");
 
 
 const gets = async () => {
     try {
-        return await Student.findAll({
-            include: [
-                {
-                    model: Subject,
-                    attributes: {
-                        exclude: ['id', 'createdAt', 'updatedAt', 'subject_status']
-                    },
-                    through: {
-                        model: StudentSubject,
-                        attributes: {
-                            exclude: ['id', 'createdAt', 'updatedAt', "StudentId", "SubjectId"]
-                        }
-                    }
-                }
-            ],
-            attributes: {
-                exclude: ['createdAt', 'updatedAt']
-            },
+        return await Player.findAll({
+             include: [
+                 {
+                     model: Game,
+                     attributes: {
+                         exclude: ['id', 'createdAt', 'updatedAt', 'subject_status']
+                     },
+                     through: {
+                         model: GamePlayer,
+                         attributes: {
+                             exclude: [, 'createdAt', 'updatedAt', "PlayerId", "GameId"]
+                         }
+                     }
+                 }
+             ],
+             attributes: {
+                 exclude: ['createdAt', 'updatedAt']
+             },
         });
 
     } catch (error) {
@@ -39,38 +39,37 @@ const getIds = async ({ data }) => {
             ? { id: idAsInt }
             : literal(`LOWER("fullname") LIKE LOWER('%${data}%')`);
 
-        return await Student.findAll({
-
+        return await Player.findAll({
             include: [
                 {
-                    model: Subject,
+                    model: Game,
                     attributes: {
-                        exclude: ['id', 'createdAt', 'updatedAt', 'subject_status']
+                        exclude: [ 'createdAt', 'updatedAt', 'subject_status']
                     },
                     through: {
-                        model: StudentSubject,
+                        model: GamePlayer,
                         attributes: {
-                            exclude: ['id', 'createdAt', 'updatedAt', "StudentId", "SubjectId"]
+                            exclude: ['createdAt', 'updatedAt', "PlayerId", "GameId"]
                         }
                     }
                 }
             ],
             attributes: {
-                exclude: ['createdAt', 'updatedAt','average']
+                exclude: ['createdAt', 'updatedAt']
             },
             where: whereClause
 
         });
     } catch (error) {
-        console.log("🚀 ~ file: studentDao.js:40 ~ getIds ~ error:", error)
+        console.log("🚀 ~ file: PlayerDao.js:40 ~ getIds ~ error:", error)
 
     }
 }
 
 
 const creates = async (data) => {
-    console.log("🚀 ~ file: studentDao.js:30 ~ creates ~ data:", data)
-    return await Student.create(data)
+    console.log("🚀 ~ file: PlayerDao.js:30 ~ creates ~ data:", data)
+    return await Player.create(data)
 }
 
 
@@ -78,7 +77,7 @@ const creates = async (data) => {
 const updates = async (data, { id }) => {
 
     try {
-        return await Student.update(
+        return await Player.update(
             {
                 ...data,
             },
@@ -99,7 +98,7 @@ const updates = async (data, { id }) => {
 const deleteS = async ({ id }, data) => {
     data.status = false
     try {
-        return await Student.update(
+        return await Player.update(
             data,
             {
                 where: {
@@ -111,7 +110,7 @@ const deleteS = async ({ id }, data) => {
         console.log("🚀 ~ file: dataOrderDao.js:63 ~ deleteS ~ error:", error)
 
     }
-    // return await Student.destroy(
+    // return await Player.destroy(
     //     {
     //       where: { id: id }
     //     }
@@ -134,4 +133,4 @@ module.exports = {
 // ]
 
 
-// "StudentId","SubjectId"
+// "PlayerId","SubjectId"

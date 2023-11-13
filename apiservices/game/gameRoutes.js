@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const subject = require('./subjectController')
+const game = require('./gameController')
 
 /* GET users listing. */
-router.get('/', subject.get)
-router.get('/:id', subject.getId)
-router.post('/', subject.post)
-router.put('/:id', subject.put)
-router.delete('/:id', subject.deletes)
+router.get('/', game.get)
+router.get('/:id', game.getId)
+router.post('/', game.post)
+router.put('/:id', game.put)
+router.delete('/:id', game.deletes)
 
 module.exports = router;

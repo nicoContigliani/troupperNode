@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const student = require('./studentController')
+const student = require('./playerController')
 
 /* GET users listing. */
 router.get('/', student.get)

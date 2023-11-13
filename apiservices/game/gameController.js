@@ -1,17 +1,17 @@
 const { dataOrderMax, dataOrderMin } = require("../../services/orderData.services");
 const { statusClean } = require("../../services/statusClean.services");
 const { dataCleanOrder } = require("../../utils/cleanGetDataOrder");
-const { creates, deleteS, gets, getIds, updates } = require("./subjectDao");
+const { creates, deleteS, gets, getIds, updates } = require("./gameDao");
 
 const get = async (req, res) => {
     try {
 
         const dataReturn = await gets()
-        const dataCleanReturn = await statusClean(dataReturn)
+        const data = await statusClean(dataReturn)
 
 
         return res.status(200).json({
-            dataCleanReturn
+            data
         });
     } catch (error) {
         return res.status(500).json({ error: error.message });
@@ -24,11 +24,11 @@ const getId = async (req, res) => {
         const id = req.params;
 
         const dataReturn = await getIds(id)
-        const dataCleanReturn = await statusClean(dataReturn)
+        const data = await statusClean(dataReturn)
 
 
         return res.status(200).json({
-            dataCleanReturn
+            data
         });
     } catch (error) {
         return res.status(500).json({ error: error.message });

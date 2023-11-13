@@ -1,27 +1,27 @@
-const { Student, Subject, StudentSubject } = require("../../models");
+const {  Game,Player,GamePlayer } = require("../../models");
 const { Op,literal } = require("sequelize");
 
 
 const gets = async () => {
     try {
-        return await Student.findAll({
-            include: [
-                {
-                    model: Subject,
-                    attributes: {
-                        exclude: ['id', 'createdAt', 'updatedAt', 'subject_status']
-                    },
-                    through: {
-                        model: StudentSubject,
-                        attributes: {
-                            exclude: ['id', 'createdAt', 'updatedAt', "StudentId", "SubjectId"]
-                        }
-                    }
-                }
-            ],
-            attributes: {
-                exclude: ['createdAt', 'updatedAt']
-            },
+        return await GamePlayer.findAll({
+            // include: [
+            //     {
+            //         model: Subject,
+            //         attributes: {
+            //             exclude: ['id', 'createdAt', 'updatedAt', 'subject_status']
+            //         },
+            //         through: {
+            //             model: GamePlayerSubject,
+            //             attributes: {
+            //                 exclude: ['id', 'createdAt', 'updatedAt', "GamePlayerId", "SubjectId"]
+            //             }
+            //         }
+            //     }
+            // ],
+            // attributes: {
+            //     exclude: ['createdAt', 'updatedAt']
+            // },
         });
 
     } catch (error) {
@@ -39,7 +39,7 @@ const getIds = async ({ data }) => {
             ? { id: idAsInt }
             : literal(`LOWER("fullname") LIKE LOWER('%${data}%')`);
 
-        return await Student.findAll({
+        return await GamePlayer.findAll({
 
             include: [
                 {
@@ -48,9 +48,9 @@ const getIds = async ({ data }) => {
                         exclude: ['id', 'createdAt', 'updatedAt', 'subject_status']
                     },
                     through: {
-                        model: StudentSubject,
+                        model: GamePlayerSubject,
                         attributes: {
-                            exclude: ['id', 'createdAt', 'updatedAt', "StudentId", "SubjectId"]
+                            exclude: ['id', 'createdAt', 'updatedAt', "GamePlayerId", "SubjectId"]
                         }
                     }
                 }
@@ -62,15 +62,15 @@ const getIds = async ({ data }) => {
 
         });
     } catch (error) {
-        console.log("🚀 ~ file: studentDao.js:40 ~ getIds ~ error:", error)
+        console.log("🚀 ~ file: GamePlayerDao.js:40 ~ getIds ~ error:", error)
 
     }
 }
 
 
 const creates = async (data) => {
-    console.log("🚀 ~ file: studentDao.js:30 ~ creates ~ data:", data)
-    return await Student.create(data)
+    console.log("🚀 ~ file: GamePlayerDao.js:30 ~ creates ~ data:", data)
+    return await GamePlayer.create(data)
 }
 
 
@@ -78,7 +78,7 @@ const creates = async (data) => {
 const updates = async (data, { id }) => {
 
     try {
-        return await Student.update(
+        return await GamePlayer.update(
             {
                 ...data,
             },
@@ -99,7 +99,7 @@ const updates = async (data, { id }) => {
 const deleteS = async ({ id }, data) => {
     data.status = false
     try {
-        return await Student.update(
+        return await GamePlayer.update(
             data,
             {
                 where: {
@@ -111,7 +111,7 @@ const deleteS = async ({ id }, data) => {
         console.log("🚀 ~ file: dataOrderDao.js:63 ~ deleteS ~ error:", error)
 
     }
-    // return await Student.destroy(
+    // return await GamePlayer.destroy(
     //     {
     //       where: { id: id }
     //     }
@@ -134,4 +134,4 @@ module.exports = {
 // ]
 
 
-// "StudentId","SubjectId"
+// "GamePlayerId","SubjectId"
