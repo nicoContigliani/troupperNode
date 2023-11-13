@@ -21,6 +21,8 @@ grant all privileges on database troupper to root;
 
 
 
+//insertar tablas en DB  
+sequelize db:migrate
 
 
 //insert Student 
